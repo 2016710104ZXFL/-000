@@ -1,0 +1,1262 @@
+
+
+
+
+
+
+
+
+
+  项目名：酒店管理系统
+
+
+组名：  Always Run
+
+
+组长：徐浩杰
+
+
+
+
+
+
+
+
+
+
+
+
+
+目  录
+1	引言	4
+1.1	编写目的	4
+1.2	背景	4
+1.3	范围	4
+1.4	术语定义	4
+1.5	参考资料	4
+1.6	任务概述	4
+  1.6.1  目标………………………………………………………………………………………4
+  1.6.2  用户的特点………………………………………………………………………………5
+  1.6.3  假定和约束………………………………………………………………………………5
+  1.7   运行环境………………………………………………………………………………….5
+  1.7.1 软件环境…………………………………………………………………………………..5
+1.7.2  硬件环境…………………………………………………………………………………/5
+1.7.3  接口……………………………………………………………………………………….5
+2	模块命名规则	6
+3	系统功能及描述	6
+3.1	系统功能层次模块图	6
+3.2	服务器模块功能的描述	6
+  3.2.1在线客户列表……………………………………………………………………………...6
+  3.2.2显示群聊信息……………………………………………………………………………..7
+  3.2.3踢人………………………………………………………………………………………..7
+  3.2.4发布公告面板信息………………………………………………………………………..7
+  3.2.5发布群信息………………………………………………………………………………..7
+  3.3客户端模块功能描述……………………………………………………………………….7
+  3.3.1在线客户列表……………………………………………………………………………...7
+  3.3.2发布群信息………………………………………………………………………………...7
+  3.3.3显示群信息………………………………………………………………………………..7
+  3.3.4私聊………………………………………………………………………………………...7
+  3.3.5发送截屏图片……………………………………………………………………………..7
+  3.3.6发送文件…………………………………………………………………………………..8
+  3.3.7退出聊天室………………………………………………………………………………..8
+  3.4对非功能性的需求…………………………………………………………………………..8
+  3.4.1对性能的规定……………………………………………………………………………...8
+  3.4.2输入输出要求……………………………………………………………………………..8
+  3.4.3其他专门要求……………………………………………………………………………...8
+4系统逻辑结构设计	9
+4.1系统逻辑结构设计…………………………………………………………………………….9
+4.2系统物理结构设计……………………………………………………………………………..9
+4.3表设计…………………………………………………………………………………………..9
+4..3.1表名的解释…………………………………………………………………………………..9
+4.3.2用户表解析………………………………………………………………………………...10
+4,.3.3消息表解析…………………………………………………………………………………10
+4.4表之间的关联设计……………………………………………………………………………10
+4.4.1概念模型…………………………………………………………………………………….11
+4.4.2物理模型…………………………………………………………………………………….11
+5	系统模块设计………………………………………………………………………………..12
+5.1	客户端…………………………………………………………………………………..12
+5.2	服务端…………………………………………………………………………………..14
+6	格式设计………………………………………………………………………………………17
+  6.1群聊格式……………………………………………………………………………………18
+  6.2私聊格式……………………………………………………………………………………19
+  6.3注册格式……………………………………………………………………………………20
+  6.4登录格式……………………………………………………………………………………20
+  6.5用户管理格式………………………………………………………………………………21
+ 
+
+1	引言
+1.1	编写目的
+详细设计说明书编写的目的是为了清晰地说明本小组开发的《酒店管理系统》要实现的所有功能。同时也为该系统的使用者和该系统开发者之间建立共同的需求目标，进行一定程度的交流沟通。同时对该系统所需实现的功能模块做了全面的描述。它是后续开发工作和验收工作的依据文件。该系统的使用者和该系统开发者以此为共同的基础。
+本说明书的预期读者为：开发小组的相关人员，开发小组的产品实现成员应该阅读和参考本说明进行代码编写、测试。
+1.2	背景
+酒店业是一个前景广阔而又竞争激烈的行业。改革开放以来，我国的酒店业迅速发展，已经成为一个具有相当规模的产业。酒店客房管理使用手工处理帐务，存在许多现金流失的漏洞，使用软件来管理宾馆业务，结帐既准确，速度又快，而且统计的报表也快捷。因此，要想使酒店的工作质量和效率提高，采用先进的计算机网络 通信技术改变酒店业务模式，实现酒店业务管理的自动化已经成为一种必然。
+1.3	范围
+该系统主要给规范性的酒店用来管理酒店的运营。
+1.4	术语定义
+   酒店管理系统：有前台可供各个不同用户使用酒店提供的各个功能，有后台可供管理员管理酒店。
+1.5	参考资料
+（1）	Java核心技术
+（2）	ETC培训资料
+1.6	任务概述 
+1.6.1	目标 
+开发一个网页版酒店管理系统，操作简单，能良好的运行。
+
+1.6.2	用户的特点 
+该系统的最终用户有两种类型：一是顾客，二是酒店管理人员。顾客只在酒店的网站部分有权限，可以预定酒店房间，对酒店进行评价等。酒店管理人员可按职位有不同的权限，既总经理，大堂经理，数据维护人员和收银员各自有不同的权限。
+系统需对用户登录进行管理。使用各功能模块时，系统应验证用户身份的有效性，否则要求用户登录。另外，允许用户对自己的密码进行修改。
+1.6.3	假定和约束
+本产品开发量不大，，要求在一个月之内来完成。
+1.7	运行环境
+简要说明本产品的运行环境（包括软件和硬件）的规定。
+1.7.1	软件环境
+	名称	版本	语种
+操作系统	Windows	XP，2003	
+操作系统的附加功能			
+数据库平台	Mysql	5.0	
+语言	JDK	5.0以上	
+邮件系统			
+客户端软件			
+
+1.7.2	硬件环境
+
+硬件配置	最低配置	推荐配置
+	1CPU：P4 2.0G	1CPU：P4 2.8G
+	Mem：1G	Mem：2G
+	HD：40G	HD：120G
+2	命名规则
+（1）项目命名：hotel
+（2）包命名：包功能小写。
+（3）类命名：根据类的功能命名，如果类名只有一个单词则单词首字母大写，其余小写；如果累名由多个单词构成，则每个单词的首字母大写，其余小写。
+（4）jsp页面：统一用小写开头。
+（5）Biz业务中的方法：用增加add**(),删除delete**(),修改update**(),查询query**()。
+（6）控制层的类全部用Action结尾。
+（7）文档用宋体，表格用5号字。
+3	系统功能及描述
+3.1	对功能的详细需求
+
+3.1.1	系统功能层次模块图 
+3.1.2	前台模块功能的描述
+3.1.2.1	前台首页
+3.1.2.1.1	效果图
+ 
+3.1.2.1.2	功能流程图
+ 
+3.1.2.1.3	功能描述
+3.1.2.1.3.1	酒店导航
+（1）功能类型：首页
+（2）功能描述：导航条主要展示，酒店的大体流程，展示信息主要有，联系我们，酒店介绍，客房展示，客房预订，会员中心等信息
+（3）操作权限：会员，vip会员，游客
+3.1.2.1.3.2	酒店公告
+（1）功能类型：首页
+（2）功能描述：公告信息主要显示酒店动态，优惠政策，热门信息等。
+（3）操作权限：会员，vip会员，游客
+3.1.2.1.3.3	会员中心
+（1）功能类型：首页
+（2）功能描述：会员登录与注册主要是查看个人信息与给游客提供加入我们酒店渠道，会员在登录时可以选择不同权限进行登录，有用户名，省份证号两种登录方式，如果登录验证信息正确，则使用ajax实现无刷新登录，否则，提示错误信息，游客可以点击下方的注册成为酒店会员，同样，在录入注册信息是也要对注册信息进行验证完成注册。
+（3）操作权限：会员，vip会员，游客
+3.1.2.1.3.4	酒店宣传视频
+（1）功能类型：首页
+（2）功能描述：主要展示酒店的发展历史，发展状况，创始人等信息。
+（3）操作权限：会员，vip会员，游客
+3.1.2.1.3.5	客房展示
+（1）功能类型：首页
+（2）功能描述：主要展示不同类型的客房信息，包括客房封面图，价格，类型，简介等信息。
+（3）操作权限：会员，vip会员，游客
+3.1.2.1.3.6	客房快速预订
+（1）功能类型：首页
+（2）功能描述：主要在首页中展示快速搜索客房信息，更方便会员预订客房，根据入住时间，离开时间，酒店类型，快速预订。
+（3）操作权限：会员，vip会员
+3.1.2.1.3.7	酒店新闻动态
+（1）功能类型：首页
+（2）功能描述：主要展示酒店近期的信息新闻发表人，时间，内容等信息。
+（3）操作权限：会员，vip会员，游客
+3.1.2.1.4	界面设计
+页面显示录入字段如下：
+字段名称	长度	录入方式	是否非空项	数据检验	默认显示
+用户名	25	Text	Y	Y	
+密码	 25	Password	Y	    Y	
+登录按钮	25	Button	Y	    N	
+记住密码      	15             	Check	Y	    N	
+入住时间	25	日历控件	Y	    N	
+离开时间     	25	日历控件	Y	    N	
+客房类型	25	下拉框           	 Y	    N	
+客房搜索       	25           	Button	 Y	    N	
+3.1.2.1.5	 数据处理
+3.1.2.1.5.1	主要文件
+功能点	对应的Jsp	对应的Action	对应的Biz	对应的entity
+酒店导航条	index	无	无	无
+酒店公告	index	无	     无	无
+会员中心	index	LoginAction与
+RegisterAction	    Member	   MemberBiz
+酒店视频宣传	index	 无	     无	无
+客房展示	index	无	      无	无
+客房快速预订	index	RoomorderAction	Room	RoomBiz
+酒店新闻动态	index	无	      无 	无
+3.1.2.1.5.2	主要的方法
+(1)	LoginAction的主要方法：Login();
+(2)	RegisterAction的主要方法：add();
+(3)	RoomorderAction的主要方法：queryByAll();
+(4)	MemberBiz的主要方法：Login(int uid,String pwd);add(Member member);
+(5)	RoomBiz的主要方法：queryByAll(String type);
+
+3.1.2.1.5.3	主要的处理
+（1）	酒店导航条：首先通过“index.jsp”访问首页，通过“contentUs.jsp”访问联系我们页面，“member.jsp”访问会员中心，“hotelIntroduction.jsp”访问酒店介绍，“roomShow.jsp”访问客房展示，“roomOrder.jsp”访问客房预订。
+（2）	酒店公告：酒店首页显示酒店最新动态信息，可以通过“hotelNotice.jsp”查看公告信息。
+（3）	会员登录与注册模块：通过“index.jsp”访问首页，会员登录只需输入用户名，密码，在这过程中经过“LoginAction”中的“Login（）”方法，然后再调用“MemberBiz”中的“Login（int uid，String pwd）”方法，同时也调用了“BaseDao”中的“Login（int uid，String pwd）”方法，完成录入验证信息，如果正确，则显示会员信息，否则，提示错误信息，如果是游客，则可以点击注册，将跳转到“register.jsp”页面完成用户注册，在这过程中经过“RegisterAction”中的“add（）”方法，然后再调用“MemberBiz”中的“add（Member member）”方法，同时也调用了“BaseDao”中的“Login（Member member）”方法，完成录入验证信息，如果正确，注册成功，否则，提示错误信息
+（4）	酒店宣传视频：酒店视频展示酒店信息。
+（5）	客房展示：在首页即可预览客房信息，如果想查看详情，通过“roomShow.jap”展示客房信息。
+（6）	客房快速预订：在“index.jsp”页面中会有，通过快速搜索客房信息模块，会员可以通过入住时间与离开时间，类型来查看酒店信息，在着过程中，会有如下操作，首先是“Action”下的“RoomOrderAction”类下的“queryByAll（）”方法，然后调用“RoomBiz”下的“queryByAll()”方法，同时也会调用“BaseDao”下的“queryByAll（）”的方法查询酒店客房信息。
+（7）	酒店新闻动态：显示员工风采，酒店信息动态。
+3.1.2.2	客房展示
+3.1.2.2.1	效果图
+4	 
+
+注释：
+大体的结构如上图，左上角改为房间类型名，图片为该类型图片的展示信息；图片右边的为对应的该类型房间的介绍；下方的列表为该类型下的所有房间列表（房间号，宽带，早餐，预定，定金，门市价，明天价，操作）
+这些价格都是在每日价格表中获取的，everyday表。
+4.1.1.1.1	功能流程图
+查看房间类型展示
+ 
+需要说明的问题：
+（1）展示的页面都是同一个，在展示页面上的按钮用动态刷新的技术仅仅展示
+（2）在搜索的时候要根据（入住时间，离开时间，房间类型）进行选择
+（3）在Actin中应该是根据，入住时间，和类型来查询符合条件的房间
+4.1.1.1.2	功能描述
+4.1.1.1.2.1	通过导航栏《房间展示》
+（1）功能类型：展示不同类型的房间概要信息
+（2）功能描述：
+	点击“房间展示”，进入到房间展示页面(GuestRoomShow.jsp)默认显示的是 商务房类型的房间列表。
+	在客房展示页面的顶部，分别有总统套房、特大豪华房、豪华房、商务房、情侣房、钟点房这些类型客房的连接；通过这个连接来查看对应类型的客房信息（房间号，宽带，早餐，预定，定金，门市价，明天价，操作）
+（3）操作权限：游客，普通会员，vip会员
+4.1.1.1.2.2	通过《搜索》
+（1）功能类型：添加文章
+（2）功能描述：
+	用通过条件（入住时间，离开时间，客房类型）进行查询
+	返回该类型的房间列表（房间号，宽带，早餐，预定，定金，门市价，明天价，操作）
+（3）操作权限：游客，普通会员，vip会员
+4.1.1.1.3	界面设计
+页面显示录入字段如下：
+字段名称	长度	录入方式	是否非空项	数据检验	默认显示
+入住时间		日历控件	Y	Y	空
+离开时间	 	日历控件	Y	    Y	空
+客房类型	20	下拉框	Y	    N	商务房
+4.1.1.1.4	 数据处理
+4.1.1.1.4.1	主要文件
+功能点	对应的Jsp	对应的Action	对应的java类	对应的Biz
+查看房间	index.jsp	RoomShowAction	Room，Rtype, Rimg	GuestRoomShowBiz
+搜索房间	有搜索框的页面	RoomShowAction	Room，Rtype, Rimg	GuestRoomShowBiz
+查看商务房	GuestRoomShow.jsp	RoomShowAction	Room，Rtype, Rimg	GuestRoomShowBiz
+查看总统套房	GuestRoomShow.jsp	RoomShowAction	Room，Rtype, Rimg	GuestRoomShowBiz
+查看特大豪华房	GuestRoomShow.jsp	RoomShowAction	Room，Rtype, Rimg	GuestRoomShowBiz
+查看豪华房	GuestRoomShow.jsp	RoomShowAction	Room，Rtype, Rimg	GuestRoomShowBiz
+查看情侣房	GuestRoomShow.jsp	RoomShowAction	Room，Rtype, Rimg	GuestRoomShowBiz
+查看钟点房	GuestRoomShow.jsp	RoomShowAction	Room，Rtype, Rimg	GuestRoomShowBiz
+4.1.1.1.4.2	主要的方法
+	BIZ中
+（1）根据入住时间，客房类型查询对应的符合条件的房间列表  
+Public String getRoomList（Date，String）
+Action也是调用biz 中public List<Room> getRoomList()
+4.1.1.1.4.3	主要的处理
+入住时间=（if 接受到前台入住时间为空   用默认的当前时间else用前台传来的时间）
+4.1.1.2	客房预订
+4.1.1.2.1	效果图
+	客房预订的页面
+	 
+
+ 
+ 
+
+4.1.1.2.2	功能流程图
+4.1.1.2.2.1	客房预订
+ 
+需要说明的问题：
+（1）个人信息填写有表单验证。
+4.1.1.2.3	功能描述
+4.1.1.2.3.1	客房预订
+（1）功能类型：查询客房信息，添加会员，添加订单
+（2）功能描述：点击客房展示页面的“预订”按钮，跳转到客房预订页面，查询具体的客房详细信息到客房预订页面，如果已经是会员则不用添加个人信息，直接点击立即预订，添加新的订单。如果不是会员则在客房预订页面的下半部分显示添加个人资料的填写DIV层，填写个人信息后，点击“立即预订”按钮后，数据库会添加一个新的会员，并添加一条新的订单信息。
+（3）操作权限：总经理，大堂经理，收银员
+4.1.1.2.4	界面设计
+页面显示录入字段如下：
+字段名称	长度	录入方式	是否非空项	数据检验	默认显示
+手机	20	文本框	Y	Y	
+会员姓名	 30	文本框	Y	    Y	
+身份证号	 30	文本框	Y	    Y	
+电子邮箱	 30	文本框	N	    N	
+入住日期	 默认	日期组件	Y	    Y	
+会员密码	默认	密码框	Y	    Y	
+房间数	默认	下拉框	N	    N	
+人数	默认	下拉框	N	    N	
+其他要求	默认	文本域	N	    N	
+4.1.1.2.5	 数据处理
+4.1.1.2.5.1	主要文件
+功能点	对应的Jsp	对应的Action	对应的Biz	对应的entity
+客房预订	orderManager	OrderManagerAction	OrderManagerBiz,MemberBiz,RoomBiz	Order,Member,Room
+4.1.1.2.5.2	主要的方法
+(1)OrderManagerAction的主要方法：query()，add()
+(2)MemberBiz的主要方法：add()
+(3)RoomBiz的主要方法：queryByOne()
+(4)OrderManagerBiz的主要方法：add()
+4.1.1.2.5.3	主要的处理
+（1）客房预订：
+点击客房展示的“预订”按钮，调用OrderManagerAction中的query()，query()方法再调用RoomBiz中的queryByOne()，RoomBiz中的queryByOne()再调用BaseDao中的queryAll(String hql,Object...pras)方法，查询成功返回数据到orderManager.jsp页面。
+用户添加个人资料信息后，点击“立即预订”按钮后，将参数传递给OrderManagerAction，OrderManagerAction调用add()，add()调用MemberBiz中的add()方法和OrderManagerBiz中的add()。MemberBiz中的add()再调用BaseDao中的add(T t)，添加新会员到数据库中；OrderManagerBiz中的add()调用BaseDao中的add(T t)，添加新的订单到数据库中。
+两个添加方法都成功则返回到会员中心页面显示新订单的信息。失败则弹出提示失败的窗口。
+4.1.1.3	会员中心
+4.1.1.3.1	效果图
+ 
+4.1.1.3.2	功能流程图
+4.1.1.3.2.1	会员中心
+ 
+
+需要说明的问题：
+（1）对修改的信息进行非空，错误填写的javaScript检验。
+4.1.1.3.3	功能描述
+4.1.1.3.3.1	修改信息
+（1）功能类型：修改信息
+（2）功能描述：编辑输入要修改的信息，系统通过对修改信息的验证，通过验证后系统将修改后的信息保存到数据库中。
+（3）操作权限：后台管理员
+4.1.1.3.4	界面设计
+页面显示录入字段如下：
+4.1.1.3.5	 数据处理
+字段名称	长度	录入方式	是否非空项	数据检验	默认显示
+会员用户名	20	文本框	Y	N	
+会员密码	 32	Password	Y	    Y	
+角色确认密码	20	Password	Y	    N	
+会员手机        	20	文本框	N	    N	
+会员邮箱        	20	文本框	N	    N	
+4.1.1.3.5.1	主要文件
+功能点	对应的Jsp	对应的Action	对应的java类	对应的Biz
+修改信息	AlertMessage	memberAction	member	memberBiz
+查看历史客房	queryHisRoom	hisRoomAction	room	roomBiz
+修改用户户名	Alertmember	memberAction	member	memberBiz
+修改密码	AlterPaw	memberAction	member	memberBiz
+4.1.1.3.5.2	主要的方法
+(1)memberAction的主要方法：update();
+(2)hisRoomAction的主要方法：query();
+(3)roomBiz的主要方法：query();
+(4)memberBiz的主要方法：Update();
+4.1.1.3.5.3	主要的处理
+（1）管理员进入会员中心页面，修改密码，点击确定修改 ，请求转到memberAction, memberAction里的update方法封装密码的管理员实体类，作为参数去调用memberBiz里的update方法，update方法再去调用hibernate封装好的update方法持久化到数据库去修改数据库的密码，修改完,我们定义一个布尔值返回，action里的update方法根据布尔值返回不同的字符串给struts,xml文件，xml文件根据不同的字符串转到相对应的视图，修改成功与否在视图中弹出相应的提示。
+（2）修改用户名，点击确定修改 ，请求转到memberAction, memberAction里的update方法封装密码的管理员实体类，作为参数去调用memberBiz里的update方法，update方法再去调用hibernate封装好的update方法持久化到数据库去修改数据库的密码，修改完,我们定义一个布尔值返回，action里的update方法根据布尔值返回不同的字符串给struts,xml文件，xml文件根据不同的字符串转到相对应的视图，修改成功与否在视图中弹出相应的提示。
+（3）查看客房历史信息，点击查看，请求转到hisRoomAction, hisRoomAction里的query方法封装密码的管理员实体类，作为参数去调用roomBiz里的query方法，query方法再去调用hibernate封装好的hql语句持久化到数据库去修改数据库的密码，查看完,我们定义一个布尔值返回，action里的update方法根据布尔值返回不同的字符串给struts,xml文件，xml文件根据不同的字符串转到相对应的视图。
+（4）修改用户信息，点击确定修改 ，请求转到memberAction, memberAction里的update方法封装密码的管理员实体类，作为参数去调用memberBiz里的update方法，update方法再去调用hibernate封装好的update方法持久化到数据库去修改数据库的密码，修改完,我们定义一个布尔值返回，action里的update方法根据布尔值返回不同的字符串给struts,xml文件，xml文件根据不同的字符串转到相对应的视图，修改成功与否在视图中弹出相应的提示。
+4.1.1.4	酒店介绍
+4.1.1.4.1	效果图
+酒店介绍页面：
+
+4.1.1.4.2	功能流程图
+4.1.1.4.3	功能描述
+用户通过index.jsp界面点击“联系我们”跳转到ArticlelMessage.jsp,显示酒店的联系方式的具体信息
+4.1.1.4.4	界面设计
+字段名称	长度	录入方式	是否非空项	数据检验	默认显示
+酒店简介	待定	文本域	Y	Y	
+酒店Logo	 	图片	Y	    Y	
+
+4.1.1.4.5	 数据处理
+4.1.1.5	联系我们
+4.1.1.5.1	效果图
+ 
+
+4.1.1.5.2	功能流程图
+ 
+4.1.1.5.3	功能描述
+用户通过index.jsp界面点击“联系我们”跳转到ArticlelMessage.jsp,显示酒店的联系方式的具体信息
+4.1.1.5.4	界面设计
+页面显示录入字段如下：
+字段名称	长度	录入方式	是否非空项	数据检验	默认显示
+酒店名称	20	文本框	Y	Y	
+酒店地址	 50	文本框	Y	Y	
+酒店联系方式	 20	文本框	Y	    Y	
+酒店Logo	 	图片	Y	    Y	
+4.1.1.5.5	数据处理
+4.1.2	后台模块功能的描述
+4.1.2.1	后台首页
+4.1.2.1.1	效果图
+ 
+4.1.2.1.2	功能流程图
+ 
+4.1.2.1.3	功能描述
+根据不同的管理员登录后台，后台的展示的首页不一样。如果是数据维护人员登录，后台首页展示近期一个月的数据增长情况曲线图；如果是收银员登录，首页展示酒店的客房分布状态图，而且收银员可以点击客房图片可以进行快捷操作，如（预订、收款、入住、维修等操作）；如果是总经理登录，首页展示当前天的业绩，也可以查询具体某段日期的业绩情况。
+4.1.2.1.4	界面设计
+4.1.2.1.5	 数据处理
+4.1.2.2	修改密码
+4.1.2.2.1	效果图
+ 
+需要说明的问题：
+	在输入两次密码后使用javascript实现检验（各项必须非空），同时输入的信息必须相同。
+4.1.2.2.2	功能流程图
+ 
+4.1.2.2.3	功能描述
+（1）功能类型：修改角色密码
+（2）功能描述：编辑输入要修改的密码，系统通过对密码信息的验证，通过验证后系统将修改后的密码保存到数据库中。
+（3）操作权限：后台管理员
+4.1.2.2.4	界面设计
+页面显示录入字段如下：
+字段名称	长度	录入方式	是否非空项	数据检验	默认显示
+员工旧密码	30	密码框	N	N	
+员工新密码	 30	密码框	N	    N	
+重写新密码	30	密码框	N	    N	
+4.1.2.2.5	 数据处理
+4.1.2.2.5.1	主要文件
+功能点	对应的Jsp	对应的Action	对应的java类	对应的Biz
+修改密码	pwdManager	UsersAction	Users	UsersBiz
+
+4.1.2.2.5.2	主要的方法
+(1)UserrAction的主要方法：update(();
+(2)UserBiz的主要方法：Update();
+4.1.2.2.5.3	主要的处理
+从pwdManager.jsp页面得到原密码，新密码，第二次新密码这3个参数，将原密码和登录名传递给PwdAction,PwdAction调用update(),update()方法调用EmpBiz中的queryByOne(),queryByOne()中调用BaseDao中的queryAll(String hql,Object...pras)方法，如果返回的集合有值则PwdAction中的update()调用PwdBiz中的update(),PwdBiz中的update()调用BaseDao中的update(T t)方法更新密码，更新成功则返回到后台的登录界面，更新失败则弹出更新失败的提示窗口。
+4.1.2.3	员工管理
+4.1.2.3.1	效果图
+	添加员工
+ 
+	删除员工
+ 
+	更改员工信息
+ 
+	查询员工信息
+ 
+
+4.1.2.3.2	功能流程图
+ 
+4.1.2.3.3	功能描述
+4.1.2.3.3.1	添加员工
+（1）功能类型：添加员工
+（2）功能描述：编辑输入要添加员工的信息内容，系统通过对员工信息的验证，通过验证后系统将员工信息保存入到数据库中。
+（3）操作权限：总经理 大堂经理
+（4）相关代码：
+	Action的方法：public String addEmp(){
+EmpBiz biz=new EmpBizImpl();
+Emp emp=new Emp();
+//根据获取的员工信息设置员工对象的值
+//调用BIZ的添加方法（传员工对象emp）
+setMessage(“添加成功”);
+Return "ok";
+}	
+4.1.2.3.3.2	删除员工
+（1）功能类型：删除员工
+（2）功能描述：用户点击删除员工按钮，系统通过得到员工的ID删除数据库中的该ID的员工信息
+（3）操作权限：总经理、大堂经理
+（4）相关代码：
+	Action的判断：public String deleteEmp(){
+EmpBiz biz=new EmpBizImpl();
+//调用BIZ的删除方法（传员工ID）
+setMessage(“删除成功”);
+Return "ok";
+}
+4.1.2.3.3.3	修改员工
+（1）功能类型：更改员工信息
+（2）功能描述：编辑输入要更改员工的信息内容，系统通过对输入的部门信息验证，通过验证后系统将更改后的部门信息保存入到数据库中。
+（3）操作权限：总经理
+（4）相关代码：
+	Action的判断：public String  updateEmp(){
+EmptBiz biz=new EmpBizImpl();
+Emp emp=new Emp();
+//通过获取得到的数据设置emp对象的值
+//调用BIZ的更改方法（传员工对象）
+setMessage(“更改成功”);
+Return "ok";
+}
+4.1.2.3.3.4	查询员工
+（1）功能类型：查询部门
+（2）功能描述：用户点击员工管理菜单，服务器通过SSH框架连接数据库查询出所有员工信息，以列表信息展示在页面
+（3）操作权限：总经理、大堂经理
+（4）相关代码：
+Action的方法：public String queryEmp(){
+EmpBiz biz=new EmpBizImpl(); 
+//调用BIZ的查询所有方法
+Return "ok";
+}
+4.1.2.3.4	界面设计
+页面显示录入字段如下：
+字段名称	长度	录入方式	是否非空项	数据检验	默认显示
+员工名	20	文本框	Y	Y	
+员工信息	 100	文本框	Y	    Y	
+员工所属部门	 20	文本框	N	     Y	
+4.1.2.3.5	 数据处理
+功能点	对应的Jsp	对应的Action	对应的Action方法	对应的java类	对应的Biz
+添加员工	emp. jsp	EmpAction.java	addEmp	Emp.java	EmpBiz.java
+删除员工	emp. jsp	EmpAction.java	deleteEmp	Emp.java	EmpBiz.java
+更改员工	emp. jsp	EmpAction.java	updateEmp	Emp.java	EmpBiz.java
+查询员工	emp.jsp	EmpAction.java	queryEmp	Emp.java	EmpBiz.java
+
+
+4.1.2.4	会员管理
+4.1.2.4.1	效果图
+	默认显示会员管理页面
+ 
+	修改会员类型，会员状态的弹窗
+ 
+
+4.1.2.4.2	功能流程图
+4.1.2.4.2.1	多个条件查询
+ 
+需要说明的问题：
+（2）在输入多个查询条件时候，可以输入为空，默认查询所有的会员数据。
+（3）多个条件查询有：会员状态，会员类型，会员姓名，会员ID
+（4）点击查询失败时候，会提示查询失败；查询成功则直接显示会员数据到界面。
+4.1.2.4.2.2	修改会员
+ 
+需要说明的问题：
+（1）点击修改弹出修改窗口，修改成功后显示会员管理界面，修改失败则提示修改失败。
+4.1.2.4.3	功能描述
+4.1.2.4.3.1	多个条件查询会员
+（4）功能类型：查询会员
+（5）功能描述：编辑输入相应的查询条件到输入框或者下拉框，系统通过对会员信息的验证，通过验证后系统将查询信息调入到数据库中查询，并返回数据到界面。
+（6）操作权限：总经理，大堂经理，收银员
+4.1.2.4.3.2	修改会员
+（1）功能类型：更新会员
+（2）功能描述：选定要修改的会员，点击“修改”按钮，跳出修改会员信息的窗口，点击返回不作任何操作，点击编辑修改完成后返回到会员管理界面。
+（3）操作权限：总经理，大堂经理，收银员
+4.1.2.4.4	界面设计
+页面显示录入字段如下：
+字段名称	长度	录入方式	是否非空项	数据检验	默认显示
+会员ID	20	文本框	N	N	
+会员姓名	 30	文本框	N	    N	
+会员状态	默认	下拉框	N	    N	启用
+会员类型       	默认        	下拉框	N	    N	普通会员
+备注	30	文本框	N	    N	
+4.1.2.4.5	 数据处理
+4.1.2.4.5.1	主要文件
+功能点	对应的Jsp	对应的Action	对应的Biz	对应的entity
+多个条件查询	member	MemberAction	MemberBiz	Member
+修改会员	member	MemberAction	MemberBiz	Member
+4.1.2.4.5.2	主要的方法
+(5)MemberAction的主要方法：queryByMany()，update()
+(6)MemberBiz的主要方法：queryByMany()，update()
+4.1.2.4.5.3	主要的处理
+（2）多个条件查询：member.jsp获取多个查询条件的数据，调用MemberAction中的queryByMany()，queryByMany()方法再调用MemberBiz中的queryMany()，MemberBiz中的queryMany()再调用BaseDao中的queryByPage(String hql,Class<T>entityClass,int page,int size, Object...pras)方法，查询成功返回数据到member.jsp页面，查询失败返回查询失败的提示窗口。
+（3）修改会员：点击member.jsp的会员信息的“修改”按钮后，在弹出的DIV层中修改会员的状态，类型，备注信息，传这3个参数到MemberAction，调用MemberAction中的update()，update()方法再调用MemberBiz中的update()，MemberBiz中的update()再调用BaseDao中的update(T t)方法，更新成功返回数据到member.jsp页面，更新失败弹出更新失败的提示窗口。
+4.1.2.5	权限管理
+4.1.2.5.1	效果图
+	角色信息管理
+1）	需要说明的问题：根据不同角色的管理员有不同修改角色权限的修改权。 
+ 
+	角色权限处理
+ 
+4.1.2.5.2	功能流程图
+4.1.2.5.2.1	角色信息管理
+ 
+4.1.2.5.2.2	角色权限管理设置
+ 
+4.1.2.5.3	功能描述
+4.1.2.5.3.1	角色信息管理
+（4）功能类型：角色信息管理
+（5）功能描述：在页面上显示角色信息，并且可以修改和删除
+（6）操作权限：后台管理员
+4.1.2.5.3.2	角色权限管理设置
+（1）功能类型：角色权限管理设置
+（2）功能描述：编辑要赋给角色的权限
+（3）操作权限：后台管理员
+4.1.2.5.4	界面设计
+页面显示录入字段如下：
+字段名称	长度	录入方式	是否非空项	数据检验	默认显示
+角色名称	20	文本框	Y	Y	
+用户姓名	20	文本框	N	    N	
+联系电话       	12               	文本框	N	    N	
+权限列表	20	复选框	N	    N	
+4.1.2.5.5	 数据处理
+4.1.2.5.5.1	主要文件
+功能点	对应的Jsp	对应的Action	对应的java类	对应的Biz
+角色信息管理	limitManage.jsp	limitManageAction	Role	limitManageBiz
+角色权限设置	updateRole	limitManageAction	Role	limitManageBiz
+4.1.2.5.5.2	主要的方法
+(3)limitManageAction的主要方法：update((),delete(),add(),queryRole(),alertRole();
+(4)limitManageBiz的主要方法：update((),delete(),add(),queryRole(),alertRole();
+4.1.2.5.5.3	主要的处理
+（1）管理员进入权限管理界面，点击权限管理按钮，程序转到limitManageAction中调用limitManageBiz接口的QueryRole方法，QueryRole方法再调用BaseDao接口中的查询方法，借助Hibernate的Hql语句查出数据库中所有的员工数据并返回limitManageAction.。
+（2）在limitManageAction中的QueryRole方法接收数据库的数据封装到Role实体添加到列表中，经过limitManageAction中的QueryRole方法返回相应的字符串值，相应的字符串值结果经过struts2的xml跳转到不同的视图。
+（3）点击添加角色，程序转到UpdateRole.jsp页面，判断是添加，执行添加功能,点击确定按钮在limitManageAction中调用limitManageBiz接口的AddRole方法，AddRole方法再调用BaseDao接口中的添加方法，传递Role对象的参数给Hibernate的add方法向数据库中添加角色数据并返回相应的布尔值到limitManageAction。 在limitManageAction页面中接收add方法返回的字符串值，对相应的字符串值结果经过struts2的xml跳转到不同的视图。
+（4）点击删除角色，程序转到limitManageAction中调用limitManageBiz接口的DeleteRole方法，DeleteRole方法再调用BaseDao接口中的删除方法，传递一个封装了Id的Role对象参数给Hibernate的delete方法向数据库中删除角色数据并返回相应的布尔值到limitManageBiz。在limitManageAction页面中接收delete方法返回的相应字符串值，相应的字符串值结果经过struts2的xml跳转到不同的视图。
+（5）点击修改角色，程序转到UpdateRole.jsp页面，判断是修改，执行修改操作，点击确定按钮在limitManageAction中调用limitManageBiz接口的AlertRole方法，AlertRole方法再调用BaseDao接口中的更新方法，更新方法传递Role对象参数给Hibernate的update方法向数据库中修改角色数据并返回相应的布尔值到limitManageBiz。 在limitManageAction页面中接收update方法返回的相应字符串值，相应的字符串值结果经过struts2的xml跳转到不同的视图。
+
+4.1.2.6	部门管理
+4.1.2.6.1	效果图
+	添加，更改部门页面
+ 
+	查询部门页面
+ 
+4.1.2.6.2	功能流程图
+ 
+4.1.2.6.3	功能描述
+4.1.2.6.3.1	添加部门
+（1）功能类型：添加部门
+（2）功能描述：编辑输入要添加部门的内容，系统通过对部门信息的验证，通过验证后系统将部门信息保存入到数据库中。
+（3）操作权限：总经理
+（4）相关代码：
+	Action的方法：public String addDepartment(){
+DepartmentBiz biz=new DepartmentBizImpl();
+Department department=new Department();
+//通过获取的参数设置部门对象的值
+//调用BIZ的添加方法（传部门对象）
+setMessage("添加成功！");
+Return "ok";
+}
+4.1.2.6.3.2	删除部门
+（1）功能类型：删除部门
+（2）功能描述：用户点击删除部门按钮，系统通过得到部门的ID删除数据库中的该ID的部门信息
+（3）操作权限：总经理
+（4）相关代码：
+	Action的方法：public String deleteDepartment(int departmentId){
+DepartmentBiz biz=new DepartmentBizImpl();
+//设置部门对象的值
+//调用BIZ的删除方法（传部门ID）
+setMessage("删除成功！");
+Return "ok";
+}
+4.1.2.6.3.3	修改部门
+（1）功能类型：更改部门信息
+（2）功能描述：编辑输入要更改部门的信息内容，系统通过对输入的部门信息验证，通过验证后系统将更改后的部门信息保存入到数据库中。
+（3）操作权限：总经理
+（4）相关代码：
+	Action的方法：public String updateDepartment(){
+DepartmentBiz biz=new DepartmentBizImpl();
+Department department=new Department();
+//通过的得到的参数设置部门对象的值
+//调用BIZ的更改方法（传部门对象）
+setMessage("更改成功！");
+Return "ok";
+}
+4.1.2.6.3.4	查询部门
+（1）功能类型：查询部门
+（2）功能描述：用户点击部门管理菜单，服务器通过数据库查询出所有部门信息，以列表信息展示在页面
+（3）操作权限：总经理
+（4）相关代码：
+	Action的方法：public String queryDepartment(){
+DepartmentBiz biz=new DepartmentBizImpl(); 
+//调用BIZ的查询所有方法
+Return "ok";
+}
+4.1.2.6.4	界面设计
+页面显示录入字段如下：
+字段名称	长度	录入方式	是否非空项	数据检验	默认显示
+部门名称	20	文本框	Y	Y	
+部门的信息	 50	文本框	Y	    Y	
+4.1.2.6.5	 数据处理
+功能点	对应的Jsp	对应的Action	对应的Action方法	对应的java类	对应的Biz
+添加部门	department.jsp	DepartmentAction.java	addDepartment	Department.java	DepartmentBiz.java
+删除部门	department.jsp	DepartmentAction.java	deleteDepartment	Department.java	DepartmentBiz.java
+更改部门	department.jsp	DepartmentAction.java	updateDepartment	Department.java	DepartmentBiz.java
+查询部门	department.jsp	DepartmentAction.java	queryDepartment	Department.java	DepartmentBiz.java
+4.1.2.7	日志管理
+4.1.2.7.1	效果图
+	查询日志
+ 
+	删除日志
+ 
+4.1.2.7.2	功能流程图
+ 
+4.1.2.7.3	功能描述
+4.1.2.7.3.1	查询日志
+（1）功能类型：查询日志
+（2）功能描述：用户点击日志管理，服务器通过分页查询获取日志信息，如果用户点击日志类型下拉框并且选择其中一个日志类型，服务器得到通过分页查询获取该类型日志文件，并展示在页面上
+（3）操作权限：总经理、维护人员
+（4）相关代码：
+	Action的方法：public String queryLogs(){
+LogsBiz biz=new LogsBizImpl();
+Logs logs=new Logs();
+//判断类型是否为空
+If(type=null){
+//如果获取的日志类型等于null，则调用BIZ的查询所有日志的方法
+}else{
+//调用BIZ的根据类型查询的方法（传日志类型）
+}
+Return "ok";
+}
+
+4.1.2.7.3.2	删除日志
+（1）功能类型：删除日志
+（2）功能描述：用户点击“删除一个月前”、“删除一周前”的按钮，或者选择日期，点击删除按钮后，判断日期格式服务器得到提交的日期数据，通过处理后数据库中的删除日志信息
+（3）操作权限：总经理，维护人员
+（4）相关代码：
+	Action的方法：public String deleteLogs(){
+LogsBiz biz=LogsBizImpl();
+//调用BIZ的删除方法（传类型）
+setMessage(“删除成功”);
+Return "ok";
+}
+4.1.2.7.4	界面设计
+页面显示录入字段如下：
+字段名称	长度	录入方式	是否非空项	数据检验	默认显示
+日志类型	20	文本框	Y	Y	
+日志信息	 500	文本框	Y	    Y	
+日志日期	 20	文本框	Y	    Y	 
+4.1.2.7.5	 数据处理
+功能点	对应的Jsp	对应的Action	对应的Action方法	对应的java类	对应的Biz
+日志查询	logs.jsp	LogsAction.java	queryLogs	Logs.java	LogsBiz.java
+删除日志	logs.jsp	LogsAction.java	deleteLogs	Logs.java	LogsBiz.java
+4.1.2.8	客房类型管理
+4.1.2.8.1	效果图
+ 
+
+注释：
+	左边第一列改为显示客房的不同类型，关注度、状态那一列删掉
+
+添加、编辑客房类型：
+ 
+添加客房页面：
+ 
+4.1.2.8.2	功能流程图
+ 
+4.1.2.8.3	功能描述
+4.1.2.8.3.1	通过连接进入客房类型管理页面
+（1）功能类型：展示不同类型的房间概要信息
+（2）功能描述：
+	通过点击进入客房类型管理的连接，进入到Rtype页面展示出所有的客房类型信息
+	在该页面中，按照客房类型进行显示客房的概要信息，后面紧跟着：编辑客房类型，删除，添加客房，上传图片的功能按钮。
+	在页面的顶部有添加客房类型的操作按钮
+
+（3）操作权限：大堂经理、老总
+4.1.2.8.4	界面设计
+1	编辑/添加客房类型：
+字段名称	长度	录入方式	是否非空项	数据检验	默认显示
+客房类型名称	10之内	文本框	Y	Y	空
+房号	4	文本框	Y	Y	Y
+居住人数	 	下拉框	Y	    Y	1
+预定金额	7	文本框	Y	数组	
+是否可预订		复选框			
+是否有宽带		复选框			
+是否提供早餐		复选框			
+上传图片		文件框			
+基础设施		复文本框			
+
+添加客房：
+字段名称	长度	录入方式	是否非空项	数据检验	默认显示
+客房类型名称		下拉框	Y	Y	空
+居住人数	 	下拉框	Y	    Y	1
+预定金额	7	文本框	Y	数组	
+是否可预订		复选框			
+是否有宽带		复选框			
+是否提供早餐		复选框			
+上传图片		文件框			
+基础设施		复文本框			
+
+
+4.1.2.8.5	 数据处理
+4.1.2.8.5.1	主要文件
+编号	功能点	对应的Jsp	对应的Action	对应的java类	对应的Biz
+1	查看房间类型管理	侧边栏	RTypeAction	Rtype
+room	RtypeBizImp
+
+2	添加房间类型	Rtype
+UpdateRType	RTypeAction	Rtype
+room	RtypeBizImp
+RoomBizImp
+3	修改房间类型	Rtype
+UpdateRType	RTypeAction	Rtype
+room	RtypeBizImp
+RoomBizImp
+4	删除房间类型	Rtype	RTypeAction	Rtype
+	RtypeBizImp
+RoomBizImp
+5	上传图片	Rtype
+addImag	RTypeAction	Rtype
+room	RtypeBizImp
+RoomBizImp
+6	添加房间	Rtype
+room	RoomAction	Rtype
+room	RtypeBizImp
+RoomBizImp
+注释：
+	添加和修改房间类型在同一个jsp页面中
+	删除房间类型用无刷新技术、同时也要将该类型下的房间设置为默认类型（钟点房）、
+
+4.1.2.8.5.2	主要的方法
+功能点1：
+	Action : 	 	public String findAll(){}
+	Biz:			public List<room> findAll(){}
+功能点2：
+	Action:		public String addRT (RType rt){}
+	Biz:			public boolean addRT (Rtype rt){}
+功能点3：
+	Action:		public String updateRT (RType rt){}
+	Biz:			public boolean updateRT (RType rt){}
+功能点4:
+	Action:		public String delectRT(RType rt){}
+	Biz: 		public boolean delectRT(RType rt){}
+4.1.2.8.5.3	主要的处理
+功能点1：
+当成功后在Rtype.jsp中显示客房分类列表，失败后后退
+功能点2：
+	当成功失败后到在添加客房类型页面，显示不同的信息
+功能点3：
+	当成功失败后到在修改客房类型页面，显示不同的信息
+功能点4:
+	用无刷新技术实现，并同时更新客房类型列表
+功能点5：
+	用弹出层的方式，在弹出的层中输入相应的图片路径
+功能点6：
+	当成功失败后到在添加客房页面，显示不同的信息
+4.1.2.9	客房管理
+4.1.2.9.1	效果图
+ 
+注意：
+	图片上的样式，客房类型、客房号、展示图片、价格（）、操作
+修改客房的每日价格：
+ 
+修改客房信息：
+ 
+4.1.2.9.2	功能流程图
+ 
+4.1.2.9.3	功能描述
+（1）功能类型：展示不同房间的概要信息
+（2）功能描述：
+	通过点击进入客房管理的连接，进入到Room.jsp页面默认展示豪华房的客房信息（有分页）
+	顶部有根据类型，房号来查询房间的信息
+	每个房间后面都有，编辑、删除、上传图片、修改每日价格的操做
+
+（3）操作权限：大堂经理、总经理
+4.1.2.9.4	界面设计
+页面显示录入字段如下：
+字段名称	长度	录入方式	是否非空项	数据检验	默认显示
+客房类型名称		下拉框	Y	Y	空
+居住人数	 	下拉框	Y	    Y	1
+预定金额	7	文本框	Y	数组	
+是否可预订		复选框			
+是否有宽带		复选框			
+是否提供早餐		复选框			
+上传图片		文件框			
+基础设施		复文本框			
+4.1.2.9.5	 数据处理
+4.1.2.9.5.1	主要文件
+编号	功能点	对应的Jsp	对应的Action	对应的java类	对应的Biz
+1	进入客房管理	有客房管理连接的页面	RoomAction	Room
+TRoom	RoomBiz
+2	查询该类型下面的所有房间	room	RoomAction	Room
+	RoomBiz
+3	编辑	updateRoom	RoomAction	Room
+	RoomBiz
+4	删除	room	RoomAction	Room
+	RoomBiz
+5	上传图片（详细中可看到的）	room	RoomAction	Room
+Rimg	RimgBiz
+6	修改每日价格	everyday	RoomAction	Room
+	RoomBiz
+7	修改房间类型（移动）	room	RoomAction	Room	RoomBiz
+
+4.1.2.9.5.2	主要的方法
+	进入客房/查询某类型下的所有管理：
+	Action：		public String showRoom(){}
+	Biz：		public List<Room> showRoom(Room r){}
+	编辑客房信息
+	Action：		public String updateRoom(){}
+	Biz:			public boolean updateRoom(Room r){}
+	删除某客房		
+Action 		public String deleteRoom(){}
+Biz			public boolean delectRoom(){}
+	上传图片
+	Action 		public String upload(){}
+	Biz			public boolean upload(Rimg rimg){}
+	修改每日价格	
+Action 		public String upEveryDay(){}
+Biz			public boolean upEveryDay(EveryDay[] everD){}
+4.1.2.9.5.3	主要的处理
+	进入客房/查询某类型下的所有管理：
+		当接收客房类型的变量为null时候，默认显示豪房类型的信息。
+	编辑客房信息
+		编辑客房的页面和添加客房的页面时同一个，都用域模型的方式向action传递参数
+	删除某客房		
+将客房的Id传到action中将房间对象，传递到biz中进行操作
+	上传图片
+		点击上传图片时候弹出层，上面可以添加一些上传图片的文件筐进行图片上传
+	注意：
+		该上传的图片不作为房间默认展示图片，仅在房间详细信息中展示
+	修改每日价格	
+修改每日价格是弹出层，上面显示当前月和下一月的日历，日历中的每日该放假的房价都是可编辑的；（每天的文本框（有两个值：日期，价格）用同名的）
+提交后我们用列表来存放每日房间的价格（日期，价格，房号）
+4.1.2.10	预订管理
+4.1.2.10.1	效果图
+ 
+4.1.2.10.2	功能流程图
+ 
+
+
+需要说明的问题：
+（1）在查询客房预订中使用ajax无刷新技术，实现数据展示，且搜索客房时用自动补全技术实现。
+（2）根据客房的不同状态可以显示，不同操作信息。
+
+4.1.2.10.3	功能描述
+4.1.2.10.3.1	根据类型获取数据
+（1）功能类型：预订管理
+（2）功能描述：管理员选择不同的类型时，在“index.jsp”页面会做一个form表单操作，通过“OrderManagerAction”提交到OrderManagerAction.java页面，同时执行了“queryByType(String str)”方法查询，显示过程中，会对数据进行分页处理，分页流程是调用util包的Util类下的“queryByPage(int size ,int page)”方法显示批量数据。
+（3）操作权限：收银员，大堂经理，总经理
+4.1.2.10.3.2	按条件搜索数据
+（1）功能类型：预订管理
+（2）功能描述：管理员在搜索框中输入条件时，其实是提交数据至数据库根据关键字自动补全相关信息，单击搜索按钮时，在“index.jsp”页面中触发“onclick（）”事件并通过javascript对“onclick()”处理，同样在“OrderManagerAction.java”页面中会调用“queryByAll（）”方法查询数据，显示过程中，会对数据分页显示，分页流程是调用util包的Util类下的“queryByPage(int size ,int page)”方法显示批量数据。
+（3）操作权限：收银员，大堂经理，总经理
+4.1.2.10.3.3	修改客房信息
+（1）	功能类型：预订管理
+（2）	功能描述：管理员通过“index.jsp”查看预订管理，显示所有客房信息，通过点击“修改”这时做了一个更新操作，首先“index.jsp”页面进入“OrderManagerAction.java”页面中调用“queryById(int rid)”方法显示客房信息，在通过“updateById(int rid)”方法更新客房信息。
+（3）操作权限：收银员，大堂经理，总经理
+4.1.2.10.3.4	删除客房操作
+功能类型：预订管理
+（2）功能描述：管理员进入“预订管理”界面，通过点击“删除”操作页面将会友情提示“是否删除操作”，实际上就执行了“del()”方法操作，页面进入“OrderManagerAction.java”页面中调用“delete（int rid）”方法删除客房信息。
+（3）操作权限：收银员，大堂经理，总经理
+4.1.2.10.4	界面设计
+页面显示录入字段如下：
+字段名称	长度	录入方式	是否非空项	数据检验	默认显示
+客房类型	15	标签	Y	Y	
+价格	 15	标签	Y	    Y	
+缩略图	15	标签	Y	    N	
+状态      	15             	标签	Y	    N	
+房间数量	15	标签	Y	    N	
+操作          	15	标签	Y	    N	
+4.1.2.10.5	 数据处理
+4.1.2.10.5.1	主要文件
+功能点	对应的Jsp	对应的Action	对应的Biz	对应的entity
+按类型查找数据	index	OrderManager	 OrderBiz	Order
+按关键字查找	index	OrderManager	 OrderBiz	Order
+删除操作	index	OrderManager	 OrderBiz	Order
+修改操作	index	OrderManager	 OrderBiz	Order
+4.1.2.10.5.2	主要的方法
+(1)OrderManagerAction的主要方法：queryByType(int type),queryByAll(),queryById(int id),update(int oid),delete(int oid);
+(2)OrderBiz的主要方法：queryByType(int type),queryByAll(),update(int oid),delete(int oid);
+4.1.2.10.5.3	主要的处理
+（1）按类型查找数据：首先“index.jsp”页面，选择不同类型，然后从Action到“OrderManagerAction”中调用“queryByType(int type)”方法，在到OrderBiz中调用“queryByType(int type)”方法，通过BaseDao中的“queryByType(int type)”方法查询数据。
+（2）按关键字查找：管理员在搜索框中输入条件时，其实是提交数据至数据库根据关键字自动补全相关信息，单击搜索按钮时，在“index.jsp”页面中触发“onclick（）”事件并通过javascript对“onclick()”处理，同样在“OrderManagerAction.java”页面中会调用“queryByAll（）”方法查询数据，显示过程中，会对数据分页显示，分页流程是调用util包的Util类下的“queryByPage(int size ,int page)”方法显示批量数据。
+（3）修改操作：管理员通过“index.jsp”查看预订管理，显示所有客房信息，通过点击“修改”这时做了一个更新操作，首先“index.jsp”页面进入“OrderManagerAction.java”页面“queryById(int rid)”方法显示客房信息，在通过“updateById(int rid)”方法更新客房信息。。
+（4）删除操作：管理员进入“预订管理”界面，通过点击“删除”操作页面将会友情提示“是否删除操作”，实际上就执行了“del()”方法操作，页面进入“OrderManagerAction.java”页面中调用“delete（int rid）”方法删除客房信息。
+4.1.2.11	配置管理
+4.1.2.11.1	效果图
+	默认显示页面
+ 
+	客房配置
+ 
+	数据库配置
+ 
+4.1.2.11.2	功能流程图
+4.1.2.11.2.1	系统配置
+ 
+需要说明的问题：
+4.1.2.11.2.2	客房配置
+ 
+需要说明的问题：
+（1）选择客房类型后，会无刷新显示客房类型的所有客房配置信息到界面中。
+（2）点击添加按钮，会弹出添加客房的配置属性的窗口。
+4.1.2.11.2.3	数据库配置
+ 
+需要说明的问题：
+4.1.2.11.3	功能描述
+4.1.2.11.3.1	系统配置
+（7）功能类型：更新配置
+（8）功能描述：对酒店的配置信息的修改与查看，主要的配置信息有：酒店介绍、酒店公告、酒店的宣传视频。
+（9）操作权限：总经理，数据维护人员
+4.1.2.11.3.2	客房配置
+（4）功能类型：更新和添加客房类型的配置信息
+（5）功能描述：对客房类型的默认配置信息的更新和添加，主要的客房类型的默认属性信息有：居住人数、基础设施、预定金额、是否可以预定、是否有宽带、免费早餐、宣传图片url。
+（6）操作权限：总经理，数据维护人员
+4.1.2.11.3.3	数据库配置
+（7）功能类型：更新会员
+（8）功能描述：主要是数据备份和数据库恢复。在数据备份中有手动备份和自动备份两种方式，其中自动备份分为：禁用自动备份、每天自动备份、每周自动备份、每月自动备份。数据库恢复可以根据备份的日期来备份，还可以批量删除一周前的备份文件。
+（9）操作权限：总经理，数据维护人员
+4.1.2.11.4	界面设计
+页面显示录入字段如下：
+字段名称	长度	录入方式	是否非空项	数据检验	默认显示
+酒店公告	50	文本框	N	N	
+酒店介绍	 50	文本框	N	    N	
+酒店宣传视频		上传文件	N	    N	
+选择客房类型	默认	下拉框	N	    N	请选择
+添加客房属性       	 25        	文本框	N	    N	
+添加属性内容	 25	文本框	N	    N	
+客房属性(9个)	 50	文本框	N	    N	
+自动备份	30	下拉框	N	    N	
+备份日期	默认	日期组件	N	    N	
+4.1.2.11.5	 数据处理
+4.1.2.11.5.1	主要文件
+功能点	对应的Jsp	对应的Action	对应的Biz	对应的entity
+系统配置	sysConfig	ConfigAction	ConfigBiz	Config
+客房配置	roomConfig	ConfigAction	ConfigBiz	Config
+数据库配置	DataConfig	ConfigAction	ConfigBiz	Config
+4.1.2.11.5.2	主要的方法
+（1）ConfigAction的主要方法：queryByMany()，updateSys()，updateRoom()，add()
+（2）ConfigBiz的主要方法：queryByMany()，updateSys()，updateRoom()，add()
+4.1.2.11.5.3	主要的处理
+（1）修改系统配置：点击sysConfig.jsp的“编辑”按钮后，调用ConfigAction中的updateSys()，updateSys()方法再调用ConfigBiz中的updateSys()，ConfigBiz中的updateSys()再调用BaseDao中的update(T t)方法，更新系统配置信息成功返回数据到sysConfig.jsp页面，更新失败返回查询失败的提示窗口。
+（2）更新客房配置：点击roomConfig.jsp的“编辑”按钮后，调用ConfigAction中的updateRoom()，updateRoom()方法再调用ConfigBiz中的updateRoom()，ConfigBiz中的updateRoom()再调用BaseDao中的update(T t)方法，更新客房配置信息成功返回数据到roomConfig.jsp页面，更新失败返回查询失败的提示窗口。
+（3）添加客房配置：在roomConfig.jsp的客房属性文本框和属性内容文本框中输入要添加的客房配置信息，调用ConfigAction中的add()，add()方法再调用ConfigBiz中的add()，ConfigBiz中的add()再调用BaseDao中的add(T t)方法，添加客房配置信息成功返回数据到roomConfig.jsp页面，添加失败返回查询失败的提示窗口。
+（4）数据库备份：
+数据库备份部分示例代码：
+Runtime run = Runtime.getRuntime(); 
+run.exec("cmd /c start exp userid=bam1/bam1 file=d:\\aa.dmp log=d:\\aa.log full=y"); 
+
+4.2	对非功能性的详细需求
+4.2.1	对性能的规定
+4.2.1.1	数据精度 
+该系统对精度没有严格要求
+4.2.1.2	时间特性要求 
+该系统对时间没有严格要求
+4.2.1.3	灵活性 
+要求用户操作前台方便，后台管理简便；
+4.2.1.4	适应性
+计算机技术和产品的发展日新月异，将会给信息处理带来更多的手段，同时也会带来更加丰富的信息表达形式。例如图象和语音技术的进步，多媒体技术的发展，这些都要求系统在设计时考虑技术变化的可能性，为可能的变化预留一定的系统处理能力。
+5	系统逻辑结构设计
+5.1	系统逻辑结构设计
+5.2	系统物理结构设计
+根据硬件设备和数据库平台系统，对数据库系统的物理存储结构进行规划，估计数据库的大小，增长速度，各主要部分的访问频度。确定数据文件的命名，日志文件的命名。数据文件和日志文件的物理存放位置，如果有多个存储设备，需要规划数据文件的组织方式。
+系统内存使用配置，一般来说，数据库系统会自动维护系统内存，但有时为了某些性能问题，可以根据需要对数据库的内存管理进行另行配置。
+5.3	表设计
+根据数据字典的设计，进一步细化为数据库表的设计。表的设计包括以下内容：
+（1）部门表：dep
+（部门表ID、部门名称、部门信息、备注）
+（2）员工表：emp
+（用户ID、部门ID、用户姓名、性别、年龄、联系方式、工龄、邮箱、薪资、最后登录时间、备注）
+（3）功能菜单表：funlist
+（菜单ID、菜单名称、ActionURL、备注）
+（4）角色表：role
+（角色ID、角色名称、权限列表（1、2、3）、备注）
+（5）用户表：users
+（用户ID、角色ID、用户ID、密码、备注）
+（6）日志表：logs
+（日志ID、用户ID、操作类型、操作时间、备注）
+（7）客房类型表：rtype
+（客房类型ID、类型名、居住人数、基础设施、预定金额、是否可以预定、宽带、免费早餐、宣传图片url、备注）
+（8）客房表：room
+（客房ID、客房类型ID、价格、居住人数、基础设施、默认图片URL、预定金额、是否可以预定、宽带、免费早餐、备注、状态）
+（9）客房图片表：rimg
+（图片ID、客房ID、图片URL、备注）
+（10）会员表：member
+（会员ID、会员类型、会员姓名、会员账号、密码、性别、手机、身份证号、邮箱、积分、订房折扣、注册时间、用户状态、备注）
+（11）订单表：order
+（订单ID、客房ID、会员ID、订单状态（未审核，已审核，已取消，已入住）、定金、下单时间、人数、入住时间、离开时间、备注）
+（12）入住表：inlive
+（入住ID、客房ID、会员ID、用户ID、人数、入住时间、退房时间、押金、备注）
+（13）账目表：bill
+（账目ID、客房ID、入住ID、用户ID、时间、金额、备注）
+（14）评论表：comm
+（评论ID、客房ID、会员ID、评论内容、备注）
+（15）文章表：article
+（文章ID、文章名称、文章类型、文章内容、图片URL、作者、发布时间、备注）
+（16）配置表：config
+（配置ID、信息类型、内容、备注）
+（17）每日价格表：everyday
+（ID、客房ID、设置价格、状态、备注）
+扩展：
+数据分析（报表）
+
+4.3.1TableName(表名的解释)
+1.	部门表：dep
+（部门表ID、部门名称、部门信息、备注）
+2.	员工表：emp
+（员工ID、部门ID、用户姓名、性别、年龄、联系方式、工龄、邮箱、薪资、最后登录时间、备注）
+3.	功能菜单表：funlist
+（菜单ID、菜单名称、ActionURL、备注）
+4.	角色表：role
+（角色ID、角色名称、权限列表（1、2、3）、备注）
+5.	用户表：users
+（用户ID、角色ID、员工ID、密码、备注）
+6.	日志表：logs
+（日志ID、用户ID、操作类型、操作时间、备注）
+7.	客房类型表：rtype
+（客房类型ID、类型名、居住人数、基础设施、预定金额、是否可以预定、宽带、免费早餐、宣传图片url、备注）
+8.	客房表：room
+（客房ID、客房类型ID、价格、居住人数、基础设施、默认图片URL、预定金额、是否可以预定、宽带、免费早餐、备注、状态）
+9.	客房图片表：rimg
+（图片ID、客房ID、图片URL、备注）
+10.	会员表：member
+（会员ID、会员类型、会员姓名、会员账号、密码、性别、手机、身份证号、邮箱、积分、订房折扣、注册时间、用户状态、备注）
+11.	订单表：order
+（订单ID、客房ID、会员ID、订单状态（未审核，已审核，已取消，已入住）、定金、房间价格、下单时间、人数、入住时间、离开时间、备注）
+12.	入住表：inlive
+（入住ID、客房ID、会员ID、用户ID、人数、入住时间、退房时间、押金、房间价格、备注）
+13.	账目表：bill
+（账目ID、客房ID、入住ID、用户ID、时间、金额、备注）
+14.	评论表：comm
+（评论ID、客房ID、会员ID、评论内容、备注）
+15.	文章表：article
+（文章ID、文章名称、文章类型、文章内容、图片URL、作者、发布时间、备注）
+16.	配置表：config
+（配置ID、信息类型、内容、备注）
+17.	每日价格表：everyday
+（ID、客房ID、设置价格、状态、备注）
+扩展：
+数据分析（报表）
+4.3.2表解析
+5.3.1.1	部门表
+表名	dep	说明	部门表
+字段说明	字段名	数据类型	字段大小	备注和说明
+部门ID	depId	NUMBER	10	主键, Hibernate自动维护
+部门名称	depName	Varchar2	50	
+部门信息	depInfor	varchar2	200	部门简要介绍信息
+备注	remark	Varchar2	max	备用
+
+5.3.1.2	员工表
+表名	emp	说明	员工表
+字段显示	字段名	数据类型	字段大小	备注和说明
+员工ID	empId	NUMBER	10	主键,Hibernate自动维护
+部门ID	depId	NUMBER	10	外键 主键表:部门表（dep）
+姓名	empName	Varchar2	20	员工姓名
+性别	empSex	varchar2	2	男 or 女
+年龄	empAge	NUMBER	2	商品优惠价（pp）
+联系方式	empPhone	varchar2	20	员工联系电话
+工龄	empWage	NUMBER	2	
+邮箱	empEmail	varchar2	50	
+薪资	empPay	NUMBER	10	
+最后登录时间	empLastTime	timestamp		时间撮
+备注	remark	Varchar2	max	备用
+5.3.1.3	功能菜单表
+表名	funlist	说明	功能菜单表
+字段显示	字段名	数据类型	字段大小	备注和说明
+功能菜单ID	funLsId	NUMBER	10	主键 Hibernate自动维护
+菜单名称	funLsName	varchar2	20	
+Action路径	actionurl	varchar2	50	存放菜单列表指向的action
+备注	remark	Varchar2	max	备用
+5.3.1.4	角色表
+表名	role	说明	角色表
+字段显示	字段名	数据类型	字段大小	备注和说明
+角色ID	roleId	NUMBER	10	主键，Hibernate自动维护
+角色名称	roleName	varchar2	50	
+权限列表	funList	varchar2	100	存放该角色所具有权限的id字符串（1,2,3,4）
+备注	remark	Varchar2	max	备用
+5.3.1.5	用户表
+表名	users	说明	用户表
+字段显示	字段名	数据类型	字段大小	备注和说明
+用户ID	usersId	NUMBER	10	主键, Hibernate自动维护
+角色ID	roleId	NUMBER	10	外键 主键表:角色表(role)
+员工ID	empId	NUMBER	10	外键 主键表：员工表（emp）
+密码	password	varchar2	32	md5加密
+备注	remark	Varchar2	max	备用
+5.3.1.6	日志表
+表名	logs	说明	日志表
+字段显示	字段名	数据类型	字段大小	备注和说明
+日志ID	logsId	NUMBER	10	主键 Hibernate自动维护
+员工ID	empId	NUMBER	10	外键 主键表：员工表（emp）
+操作类型	logsType	varchar2	50	增加（a）、删除（d）、修改（u）
+日志内容	logsText	varchar2	50	日志详细内容
+操作时间	commpp	timestamp		时间撮
+备注	remark	varchar2		备用
+5.3.1.7	客房类型表
+表名	rtype	说明	客房类型表
+字段显示	字段名	数据类型	字段大小	备注和说明
+客房类型ID	rtypeId	NUMBER	10	主键 Hibernate自动维护
+客房类型名	rtypeName	Varchar2	50	总统套房，特大豪华房，豪华房，商务房，情侣房，钟点房
+客房居住人数	liveNum	NUMBER	1	
+基础设施	facility	varchar2	100	如：“风扇，桌子“
+预定金额	resMoney	NUMBER	7	
+是否可预定	isRes	NUMBER	1	0(可以)，1（不可以）
+是否有宽带	isNet	NUMBER	1	0(可以)，1（不可以）
+是否提供早餐	isfoot	NUMBER	1	0(可以)，1（不可以）
+宣传图片	imgUrl	varchar2	100	宣传图片url地址
+备注	remark	varchar2	max	
+5.3.1.8	客房表
+表名	room	说明	客房表
+字段显示	字段名	数据类型	字段大小	备注和说明
+客房ID	roomId	NUMBER	10	主键 Hibernate自动维护
+客房类型ID	rtypeId	NUMBER	10	外键 主键表 客房类型表（rtype）
+价格	price	NUMBER	7	大于0
+居住人数	liveNum	NUMBER	1	
+基础设施	facility	varchar2	100	如：“风扇，桌子“
+预定金额	resMoney	NUMBER	7	
+是否可预定	isRes	NUMBER	1	0(可以)，1（不可以）
+是否有宽带	isNet	NUMBER	1	0(可以)，1（不可以）
+是否提供早餐	isfoot	NUMBER	1	0(可以)，1（不可以）
+默认图片url	defImg	varchar2	20	
+状态	state	varchar2	20	
+备注	remark	vharchar2	max	备用
+5.3.1.9	客房图片表
+表名	rimg	说明	客房图片表
+字段显示	字段名	数据类型	字段大小	备注和说明
+客房图片ID	rimgId	NUMBER	10	主键 Hibernate自动维护
+客房ID	roomId	NUMBER	10	外键 主键表：客房表（room）
+图片URL	imgUrl	Varchar2	20	
+备注	remark	varchar2	max	
+5.3.1.10	会员表
+表名	member	说明	会员表
+字段显示	字段名	数据类型	字段大小	备注和说明
+会员ID	memId	NUMBER	10	主键 Hibernate自动维护
+会员类型	memType	Varchar2	10	普通会员 VIP会员
+会员账号	memNum	Varchar2	20	可用做登陆
+会员姓名	memName	Varchar2	20	
+手机	phone	Varchar2	20	可用做登陆 
+密码	memPaw	varchar2	32	md5加密
+.性别	memsex	varchar2	2	女，男
+身份证号	IDCard	varchar2	18	
+邮箱	email	varchar2	50	
+积分	memInt	NUMBER	10	
+订房折扣	discount	NUMBER（3,2）		格式：0.75
+注册时间	regisdate	timestamp	20	
+用户状态	userstate	varchar2	20	0禁用
+1启用 默认启用（触发器实现）
+备注	remark	varchar2	max	备用
+5.3.1.11	订单表
+表名	order	说明	订单表
+字段显示	字段名	数据类型	字段大小	备注和说明
+订单ID	orderId	NUMBER	10	主键 Hibernate自动维护
+客房ID	roomId	NUMBER	10	外键 主键表：客房表（room） 
+会员ID	memId	NUMBER	10	外键 主键表：会员表（member）
+订单状态	orderstate	Varchar2	10	未审核，已审核，已取消，已入住
+定金	Deposit	NUMBER	7	从所定的房间所属类型表里来
+价格	price	NUMBER	7	大于0
+下单时间	ordertime	DATE		
+人数	personNum	NUMBER	1	
+入住时间	inTime	timestamp		
+离开时间	outTime	timestamp		
+.备注	remark	varchar2	max	备用
+5.3.1.12	入住表
+表名	inlive	说明	入住表
+字段显示	字段名	数据类型	字段大小	备注和说明
+入住Id	inliveId	NUMBER	10	主键 Hibernate自动维护
+客房ID	roomId	NUMBER	10	外键 主键表：客房表（room） 
+会员ID	memId	NUMBER	10	外键 主键表：会员表（member）
+用户ID	usersId	NUMBER	10	外键 主键表：用户表（users）
+定金	Deposit	NUMBER	7	默认200
+价格	price	NUMBER	7	大于0
+人数	personNum	NUMBER	1	
+入住时间	inTime	timestamp		
+退房时间	outTime	timestamp		
+备注	remark	Varchar2	max	备用
+5.3.1.13	账单表
+表名	bill	说明	账单表
+字段显示	字段名	数据类型	字段大小	备注和说明
+账单表	billId	number	10	主键 Hibernate自动维护
+客房ID	roomId	NUMBER	10	外键 主键表：客房表（room） 
+会员ID	memId	NUMBER	10	外键 主键表：会员表（member）
+用户ID	usersId	NUMBER	10	外键 主键表：用户表（users）
+结账时间	endTime	timestamp		
+总金额	allMoney	NUMBER	7	
+备注	remark	varchar2	max	备用
+
+5.3.1.14	评论表
+表名	comm	说明	评论表
+字段显示	字段名	数据类型	字段大小	备注和说明
+评论ID	commId	NUMBER	10	主键 Hibernate自动维护
+客房ID	roomId	NUMBER	10	外键 主键表：客房表（room） 
+会员ID	memId	NUMBER	10	外键 主键表：会员表（member）
+评论内容	commText	Varchar2	500	
+备注	remark	varchar2	max	
+5.3.1.15	文章表
+表名	article	说明	文章表
+字段显示	字段名	数据类型	字段大小	备注和说明
+文章ID	artId	NUMBER	10	主键 Hibernate自动维护
+文章名称	artName	Varchar2	100	
+文章类型	artType	Varchar2	50	公告（1），酒店介绍（2）
+文章内容	artText	varchar2	max	
+图片URL	imgurl	varchar2	max	
+作者	author	varchar2	10	将员工empName填入
+发表时间	pubtime	timestamp		
+备注	remark	varchar2	max	
+5.3.1.16	配置表
+表名	config	说明	配置表
+字段显示	字段名	数据类型	字段大小	备注和说明
+配置表ID	configID	NUMBER	10	主键 Hibernate自动维护
+信息类型	contype	Varchar2	50	
+内容	conText	Varchar2	max	
+备注	remark	varchar2	max	
+5.3.1.17	每日价格表
+表名	everyday	说明	每日价格表
+字段显示	字段名	数据类型	字段大小	备注和说明
+价格表ID	everydayId	NUMBER	10	主键 Hibernate自动维护
+客房ID	roomId	NUMBER	10	外键 主键表：客房表（room）
+价格	price	NUMBE	7	
+备注	remark	varchar2	max	
+
+
+5.3.2	表之间的关联设计
+5.3.2.1	概念模型
+5.3.2.2	物理模型 
+5系统模块设计
+5.1前台
+5.2后台
+6格式设计
+
+
